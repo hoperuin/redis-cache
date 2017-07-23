@@ -24,6 +24,11 @@ import org.apache.ibatis.cache.CacheException;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 
+import javax.net.ServerSocketFactory;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.SSLSession;
+
 /**
  * Converter from the Config to a proper {@link RedisConfig}.
  *
@@ -70,7 +75,7 @@ final class RedisConfigurationBuilder {
     /**
      * Parses the Config and builds a new {@link RedisConfig}.
      *
-     * @param the
+     * @param classLoader
      *            {@link ClassLoader} used to load the
      *            {@code memcached.properties} file in classpath.
      * @return the converted {@link RedisConfig}.
@@ -126,6 +131,29 @@ final class RedisConfigurationBuilder {
                         metaCache.setValue(name, Boolean.valueOf(value));
                     } else if (double.class == type || Double.class == type) {
                         metaCache.setValue(name, Double.valueOf(value));
+                    } else if (javax.net.ssl.HostnameVerifier.class == type) {
+                        if("true".equals(value)){
+                            metaCache.setValue(name, new HostnameVerifier() {
+                                @Override
+                                public boolean verify(String s, SSLSession sslSession) {
+                                    return true;
+                                }
+                            });
+                        }else{
+                            metaCache.setValue(name , null);
+                        }
+                    } else if (javax.net.ssl.SSLSocketFactory.class == type) {
+                        if("true".equals(value)){
+                            metaCache.setValue(name, ServerSocketFactory.getDefault());
+                        }else{
+                            metaCache.setValue(name, null);
+                        }
+                    } else if (javax.net.ssl.SSLParameters.class == type ) {
+                        if("true".equals(value)){
+                            metaCache.setValue(name,new SSLParameters());
+                        }else {
+                            metaCache.setValue(name,null);
+                        }
                     } else {
                         throw new CacheException("Unsupported property type: '"
                                 + name + "' of type " + type);

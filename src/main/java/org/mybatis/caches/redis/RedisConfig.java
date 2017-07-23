@@ -24,6 +24,11 @@ import redis.clients.jedis.Protocol;
 
 public class RedisConfig extends JedisPoolConfig {
 
+    private String connectionMode="simple";//simple,sentinel,cluster
+    private String sentinelMasterName="master";
+    private String sentinelNodes="127.0.0.1:26379,127.0.0.1:26380";
+    private String clusterNodes="127.0.0.1:6379,127.0.0.1:6380,127.0.0.1:6381";
+    private int maxAttempts = 5;
     private String host = Protocol.DEFAULT_HOST;
     private int port = Protocol.DEFAULT_PORT;
     private int connectionTimeout = Protocol.DEFAULT_TIMEOUT;
@@ -35,6 +40,46 @@ public class RedisConfig extends JedisPoolConfig {
     private SSLSocketFactory sslSocketFactory;
     private SSLParameters sslParameters;
     private HostnameVerifier hostnameVerifier;
+
+    public int getMaxAttempts() {
+        return maxAttempts;
+    }
+
+    public void setMaxAttempts(int maxAttempts) {
+        this.maxAttempts = maxAttempts;
+    }
+
+    public String getConnectionMode() {
+        return connectionMode;
+    }
+
+    public void setConnectionMode(String connectionMode) {
+        this.connectionMode = connectionMode;
+    }
+
+    public String getSentinelMasterName() {
+        return sentinelMasterName;
+    }
+
+    public void setSentinelMasterName(String sentinelMasterName) {
+        this.sentinelMasterName = sentinelMasterName;
+    }
+
+    public String getSentinelNodes() {
+        return sentinelNodes;
+    }
+
+    public void setSentinelNodes(String sentinelNodes) {
+        this.sentinelNodes = sentinelNodes;
+    }
+
+    public String getClusterNodes() {
+        return clusterNodes;
+    }
+
+    public void setClusterNodes(String clusterNodes) {
+        this.clusterNodes = clusterNodes;
+    }
 
     public boolean isSsl() {
         return ssl;
