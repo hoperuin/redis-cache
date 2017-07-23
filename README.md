@@ -15,3 +15,12 @@ Essentials
 ----------
 
 * [See the docs](http://mybatis.github.io/redis-cache/)
+
+Feature
+---------
+* support sentinel,cluster,sentinel by password,cluster by password connection
+* connectionMode=simple(default),sentinel,cluster
+
+New Config
+----------
+Please visit src/main/test/redis.properties
