@@ -100,8 +100,7 @@ public final class RedisCache implements Cache {
       }
 
       if(isSetPassword){
-        jedisCluster = new JedisCluster(hostAndPorts,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),
-                redisConfig.getMaxAttempts(),redisConfig.getPassword(),redisConfig);
+        throw new IllegalArgumentException("Jedis 2.8.X not support cluster for password!");
       }else{
         jedisCluster = new JedisCluster(hostAndPorts,redisConfig.getConnectionTimeout(),redisConfig.getSoTimeout(),
                 redisConfig.getMaxAttempts(),redisConfig);
@@ -110,8 +109,7 @@ public final class RedisCache implements Cache {
     }else{
       pool = new JedisPool(redisConfig, redisConfig.getHost(), redisConfig.getPort(),
               redisConfig.getConnectionTimeout(), redisConfig.getSoTimeout(), redisConfig.getPassword(),
-              redisConfig.getDatabase(), redisConfig.getClientName(), redisConfig.isSsl(),
-              redisConfig.getSslSocketFactory(), redisConfig.getSslParameters(), redisConfig.getHostnameVerifier());
+              redisConfig.getDatabase(), redisConfig.getClientName());
     }
   }
 
