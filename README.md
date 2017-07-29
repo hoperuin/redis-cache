@@ -20,6 +20,7 @@ Feature
 ---------
 * support sentinel,cluster,sentinel by password,cluster by password connection
 * connectionMode=simple(default),sentinel,cluster
+* git master base jedis 2.9.0,jedis 2.8.X branch base jedis 2.8.2
 
 New Config
 ----------
